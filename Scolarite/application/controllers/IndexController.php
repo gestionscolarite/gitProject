@@ -49,7 +49,7 @@ class indexController extends Zend_Controller_Action
                 );
                 
                 $db->insert('t_etudiant', $inscriptionInfo);
+          echo "<script>alert(\"Votre inscription a été effectué avec succés \")</script>";
                 
-               	
             }
         }}}
