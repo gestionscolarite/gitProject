@@ -1,6 +1,5 @@
-<?php
-
-class IndexController extends Zend_Controller_Action
+<?php 
+class indexController extends Zend_Controller_Action
 {
 
     public function init()
@@ -13,57 +12,44 @@ class IndexController extends Zend_Controller_Action
     {
         
          //formulaire
-        $form= new Application_Form_preinscription();
-        $this->view->form = $form;
+        $Finscription= new Application_Form_inscription();
+        $this->view->inscription = $Finscription;
         
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
-            if ($form->isValid($data)) {
+            if ($Finscription->isValid($data)){
                 
                 
-     $db = Zend_Db_Table_Abstract::getDefaultAdapter();
- //requette pour remplir l'element select apartir de bd
+ //recupération des information de l'inscription depuis le fomulaire 
  
-              
-         
-       //recuperation des valeurs saisis sur les champs formulaire
-       
-         $nom = $form->getValue('nom');
-         $prenom= $form->getValue('prenom');
-         $email= $form->getValue('email');
-         $tel= $form->getValue('tel');
-         $date= $form->getValue('date');
-         $diplome=$form->getValue('diplome');
+                $nom = $Finscription->getValue('nom');
+                $prenom=$Finscription->getValue('prenom');
+                $civilite=$this->getRequest()->getParam('civilite');
+                $email=$Finscription->getValue('email');
+                $tel=$Finscription->getValue('tel');
+                $nationalite=$Finscription->getValue('nationalite');
+                $date=$Finscription->getValue('date');
+                $ville=$Finscription->getValue('ville');
+                $adresse=$Finscription->getValue('adresse');
+                
+      // insertion des information de l'inscription dans le formulaire
       
-         $ann= $form->getValue('ann');
-         $cin= $form->getValue('cin');
-         $bac=$form->getValue("bac");
-         
+      $db = Zend_Db_Table_Abstract::getDefaultAdapter();
+                $inscriptionInfo = array(
+                		'nom' => $nom,
+                		'prenom' => $prenom,
+                		'email' => $email,
+                		'telephon' => $tel,
+                		'date_naissance' => $date,
+                		'adresse' => $adresse,
+                		'ville' => $ville,
+                		'civilite' => $civilite,
+                		'nationalite' => $nationalite,
                 
+                );
                 
-        //requette d'insertion des information de preinsciption
-        
-        
-        $data = array(
-        		'nom' => $nom,
-        		'prenom' => $prenom,
-        		'email' => $email,
-        		'numTelephon' => $tel,
-        		'dateNaissance' => $date,
-        		'diplome' => $diplome,
-        		'anneeObtentionBac' => $ann,
-        		'typeBac' => $bac,
-        		'identite' => $cin,
-        
-        );
-        
-        $db->insert('td_utilisateur', $data);
-       
-       //fin de requete d'insertion des information de preinscription
-        }
-        }
-    }
-
-
-}
-
+                $db->insert('t_etudiant', $inscriptionInfo);
+                
+               	
+            }
+        }}}
